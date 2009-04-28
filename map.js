@@ -4,7 +4,7 @@ var addressTemplate = new Template('#{streetAddress}<br/>#{locality}, #{region} 
 var Map = {
   showPoint: function(hcard) {
     var point = new GLatLng(hcard.geo.latitude, hcard.geo.longitude);
-    var marker = new GMarker(point, {icon:colored_pin(hcard.categoryList[0])});
+    var marker = new GMarker(point, {icon:colored_pin((hcard.categoryList ? hcard.categoryList[0] : 'red'))});
     marker.html = infoTemplate.evaluate(hcard) + addressTemplate.evaluate(hcard.adrList[0]);
     Map.map.addOverlay(marker);
     Map.bounds.extend(point);    
