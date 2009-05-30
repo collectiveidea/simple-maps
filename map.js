@@ -67,9 +67,8 @@ function colored_pin(color) {
 function shadow() {
     return new google.maps.MarkerImage("http://labs.google.com/ridefinder/images/mm_20_shadow.png",
       new google.maps.Size(22, 20),
-      new google.maps.Point(6,20),
-      new google.maps.Point(5,1));      
-  
+      new google.maps.Point(5,1),
+      new google.maps.Point(0,20));      
 }
 
 // Dunno why IE doesn't like dom:loaded.
