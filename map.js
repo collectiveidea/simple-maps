@@ -34,17 +34,19 @@ var Map = {
   
   hcards: function() {
     if (!Map._hcards) {
-      Map._hcards = HCard.discover().select(function(card) { return card.geo })
+      Map._hcards = HCard.discover(eval(Map.hcardSelector)).select(function(card) { return card.geo })
     }
     return Map._hcards;
   },
   
   domId: 'map',
-  
+    
   options: {
     zoom: 8,
     mapTypeId: google.maps.MapTypeId.ROADMAP
   },
+  
+  maxZoom: 13,
   
   display: function() {
     if (Map.hcards().length == 0) return
@@ -60,7 +62,12 @@ var Map = {
     Map.hcards().forEach(Map.showPoint); // forEach is defined in microformat.js
 
     // Fit all points in view
-    Map.map.fitBounds(Map.bounds);
+    if (Map.hcards().length == 1) {
+      Map.map.set_zoom(Map.maxZoom);
+      Map.map.set_center(center);
+    } else {
+      Map.map.fitBounds(Map.bounds); 
+    }
   },
   
   icons: {},
