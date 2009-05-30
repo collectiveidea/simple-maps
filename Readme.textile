@@ -62,3 +62,4 @@ h2. TODO
 
 * Remove dependency on prototype
 * More configurable
+* Geocode if geo data isn't present
