@@ -5,8 +5,8 @@ Google Maps should be easy to add anywhere. Simply mark up your content with "hC
 h2. Requirements
 
 * "Sumo":http://github.com/danwrong/sumo (javascript microformats parser)
-* "Prototype":http://prototypejs.org
-* The ability to write hCards
+* "Prototype":http://prototypejs.org framework[1]
+* The ability to write hCards (or copy them from the "hCard Creator":http://microformats.org/code/hcard/creator)
 
 h2. Example
 
@@ -60,6 +60,8 @@ h2. Example
 
 h2. TODO
 
-* Remove dependency on prototype
+* Remove dependency on prototype[1]
 * More configurable
 * Geocode if geo data isn't present
+
+fn1. Note: prototype.js is only used for loading the map on page load (last 5 lines of map.js). Simply replace this, or call Map.display() on your own to remove the dependency.
