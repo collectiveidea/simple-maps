@@ -1,12 +1,13 @@
 var Map = {
   infoWindowContent: function(hcard) {
     var address = hcard.adrList[0]
-    return '<b>'
+    return ('<b>'
       +(hcard.urlList ? '<a href="'+hcard.urlList[0]+'">'+hcard.fn+'</a>' : hcard.fn)
       +'</b><br/>'
       +address.streetAddress
       +'<br/>'
-      +address.locality+', '+address.region+' '+address.postalCode+' '+address.country
+      +address.locality+', '+address.region+' '+address.postalCode+' '+address.country)
+    .gsub('undefined', '');
   },
   
   plotPoint: function(hcard, point) {
