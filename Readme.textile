@@ -2,6 +2,8 @@ h1. Simple Maps!
 
 Google Maps should be easy to add anywhere. Simply mark up your content with "hCards":http://microformats.org/wiki/hcard and we'll put them on a map.
 
+Don't know your latitude & longitude? No problem, we'll look them up for you! Have them already? We'll use them.
+
 h2. Requirements
 
 * "Sumo":http://github.com/danwrong/sumo (javascript microformats parser)
