@@ -9,8 +9,7 @@ var Map = {
       +address.locality+', '+address.region+' '+address.postalCode+' '+address.country
   },
   
-  showPoint: function(hcard) {
-    var point = new google.maps.LatLng(hcard.geo.latitude, hcard.geo.longitude);
+  plotPoint: function(hcard, point) {
     var marker = new google.maps.Marker({
         position: point, 
         map: Map.map, 
@@ -29,12 +28,33 @@ var Map = {
       infoWindow.open(Map.map, marker);
     });
     
-    Map.bounds.extend(point);    
+    Map.bounds.extend(point);
+  },
+  
+  showPoint: function(hcard) {
+    if (!hcard.geo || !hcard.geo.latitude || !hcard.geo.longitude) {
+      var address = hcard.adrList[0].streetAddress+', '+hcard.adrList[0].locality+', '+hcard.adrList[0].region+' '+hcard.adrList[0].postalCode;
+      Map.geocoder().geocode( { address: address, country: hcard.adrList[0].country}, function(results, status) {
+        if (status == google.maps.GeocoderStatus.OK && results.length) {
+          // You should always check that a result was returned, as it is
+          // possible to return an empty results object.
+          if (status != google.maps.GeocoderStatus.ZERO_RESULTS) {
+            Map.plotPoint(hcard, results[0].geometry.location);
+            Map.fitPoints(); // Have to re-fit, as it may be already called.
+          }
+        } else {
+          alert("Geocode was unsuccessful due to: " + status);
+        }
+      });
+    } else {
+      point = new google.maps.LatLng(hcard.geo.latitude, hcard.geo.longitude);
+      Map.plotPoint(hcard, point);
+    }
   },
   
   hcards: function() {
     if (!Map._hcards) {
-      Map._hcards = HCard.discover(eval(Map.hcardSelector)).select(function(card) { return card.geo })
+      Map._hcards = HCard.discover(eval(Map.hcardSelector));
     }
     return Map._hcards;
   },
@@ -56,18 +76,29 @@ var Map = {
     // Map.map.enableScrollWheelZoom();
     // Map.map.addControl(new GOverviewMapControl());
 
-    var center = new google.maps.LatLng(Map.hcards()[0].geo.latitude, Map.hcards()[0].geo.longitude);
-    Map.bounds = new google.maps.LatLngBounds(center);
+    Map.center = new google.maps.LatLng(Map.hcards()[0].geo.latitude, Map.hcards()[0].geo.longitude);
+    Map.bounds = new google.maps.LatLngBounds(Map.center);
     
     Map.hcards().forEach(Map.showPoint); // forEach is defined in microformat.js
 
     // Fit all points in view
+    Map.fitPoints();
+  },
+  
+  fitPoints: function() {
     if (Map.hcards().length == 1) {
       Map.map.set_zoom(Map.maxZoom);
-      Map.map.set_center(center);
+      Map.map.set_center(Map.center);
     } else {
       Map.map.fitBounds(Map.bounds); 
     }
+  },
+  
+  geocoder: function() {
+    if (!Map._geocoder) {
+      Map._geocoder = new google.maps.Geocoder();
+    }
+    return Map._geocoder;
   },
   
   icons: {},

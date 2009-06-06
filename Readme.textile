@@ -24,18 +24,19 @@ h2. Example
 
   <div class="vcard">
     <h2 class="fn org">Lemonjello's</h2>
-      <p class="adr">
-      	  <span class="street-address">61 East Ninth Street</span>
-      	  <span class="locality">Holland</span>, <span class="region">Michigan</span> <span class="postal-code">49423</span>
-      </p>
-      <p>
-        <span class="url"><a href="http://www.lemonjellos.com" rel="external">http://www.lemonjellos.com</a></span>
-        <span class="tel">phone: <span class="value">616-928-0699</span></span>
-        <span class="geo">
-         <span class="latitude">42.789537</span>, 
-         <span class="longitude">-86.104624</span>
-        </span>
-      </p>
+     <p class="adr">
+    	  <span class="street-address">61 East Ninth Street</span>
+    	  <span class="locality">Holland</span>, <span class="region">Michigan</span> <span class="postal-code">49423</span>
+    </p>
+    <p>
+      <span class="url"><a href="http://www.lemonjellos.com" rel="external">http://www.lemonjellos.com</a></span>
+      <span class="tel">phone: <span class="value">616-928-0699</span></span>
+      <!-- this one has geo data -->
+      <span class="geo">
+       <span class="latitude">42.789537</span>, 
+       <span class="longitude">-86.104624</span>
+      </span>
+    </p>
   </div>
   
   <div class="vcard">
@@ -49,12 +50,9 @@ h2. Example
       <span class="url"><a href="http://www.jpscoffee.com" rel="external">http://www.jpscoffee.com</a></span>
       <span class="tel">phone: <span class="value">616-396-5465</span></span>
       <span class="tel">fax: <span class="value">616-396-0219</span></span>
-        <span class="geo">
-         <span class="latitude">42.790437</span>, 
-         <span class="longitude">-86.104783</span>
-        </span>
-      </p>
-    </div>
+      <!-- this one doesn't have geo data, so it gets looked up on the fly! -->
+    </p>
+  </div>
 </pre></code>
 
 
@@ -62,6 +60,5 @@ h2. TODO
 
 * Remove dependency on prototype[1]
 * More configurable
-* Geocode if geo data isn't present
 
 fn1. Note: prototype.js is only used for loading the map on page load (last 5 lines of map.js). Simply replace this, or call Map.display() on your own to remove the dependency.
