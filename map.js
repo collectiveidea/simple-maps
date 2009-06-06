@@ -61,9 +61,11 @@ var Map = {
   
   domId: 'map',
     
-  options: {
-    zoom: 8,
-    mapTypeId: google.maps.MapTypeId.ROADMAP
+  options: function() {
+    return {
+      zoom: 8,
+      mapTypeId: google.maps.MapTypeId.ROADMAP
+    }
   },
   
   maxZoom: 13,
@@ -71,7 +73,7 @@ var Map = {
   display: function() {
     if (Map.hcards().length == 0) return
 
-    Map.map = new google.maps.Map(document.getElementById(Map.domId), Map.options);
+    Map.map = new google.maps.Map(document.getElementById(Map.domId), Map.options());
 
     // Map.map.enableScrollWheelZoom();
     // Map.map.addControl(new GOverviewMapControl());
@@ -123,7 +125,7 @@ var Map = {
 
 // Dunno why IE doesn't like dom:loaded.
 if (Prototype.Browser.IE) {
-  Event.observe(window, "load", Map.display);
+  Event.observe(window, "load", google.maps.loadScripts);
 } else {
-  Event.observe(window, "dom:loaded", Map.display);
+  Event.observe(window, "dom:loaded", google.maps.loadScripts);
 }
