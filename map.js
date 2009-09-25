@@ -1,4 +1,6 @@
 var Map = {
+  points: 0,
+  
   infoWindowContent: function(hcard) {
     var address = hcard.adrList[0]
     return ('<b>'
@@ -11,6 +13,16 @@ var Map = {
   },
   
   plotPoint: function(hcard, point) {
+    Map.points++;
+
+    if (Map.points == 1) {
+      Map.center = point;
+      Map.bounds = new google.maps.LatLngBounds(Map.center);
+      Map.map = new google.maps.Map(document.getElementById(Map.domId), Map.options);
+    } else {
+      Map.bounds.extend(point);
+    }
+
     var marker = new google.maps.Marker({
         position: point, 
         map: Map.map, 
@@ -28,8 +40,6 @@ var Map = {
     google.maps.event.addListener(marker, 'click', function() {
       infoWindow.open(Map.map, marker);
     });
-    
-    Map.bounds.extend(point);
   },
   
   showPoint: function(hcard) {
@@ -72,14 +82,9 @@ var Map = {
   display: function() {
     if (Map.hcards().length == 0) return
 
-    Map.map = new google.maps.Map(document.getElementById(Map.domId), Map.options);
-
     // Map.map.enableScrollWheelZoom();
     // Map.map.addControl(new GOverviewMapControl());
 
-    Map.center = new google.maps.LatLng(Map.hcards()[0].geo.latitude, Map.hcards()[0].geo.longitude);
-    Map.bounds = new google.maps.LatLngBounds(Map.center);
-    
     Map.hcards().forEach(Map.showPoint); // forEach is defined in microformat.js
 
     // Fit all points in view
@@ -87,12 +92,7 @@ var Map = {
   },
   
   fitPoints: function() {
-    if (Map.hcards().length == 1) {
-      Map.map.set_zoom(Map.maxZoom);
-      Map.map.set_center(Map.center);
-    } else {
-      Map.map.fitBounds(Map.bounds); 
-    }
+    Map.map.fitBounds(Map.bounds); 
   },
   
   geocoder: function() {
