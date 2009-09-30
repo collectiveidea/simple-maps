@@ -9,7 +9,7 @@ var Map = {
       +address.streetAddress
       +'<br/>'
       +address.locality+', '+address.region+' '+address.postalCode+' '+address.country)
-    .gsub('undefined', '');
+    .replace(/undefined/, '');
   },
   
   plotPoint: function(hcard, point) {
@@ -122,9 +122,14 @@ var Map = {
   }
 }
 
-// Dunno why IE doesn't like dom:loaded.
-if (Prototype.Browser.IE) {
-  Event.observe(window, "load", Map.display);
+if (typeof Prototype !== 'undefined') {
+  document.observe('dom:loaded', Map.display)
+} else if (typeof jQuery !== 'undefined') {
+  jQuery(Map.display)
 } else {
-  Event.observe(window, "dom:loaded", Map.display);
+  if (window.addEventListener)
+    window.addEventListener("load", Map.display, false);
+  else {
+    window.attachEvent("onload", Map.display);
+  }  
 }
