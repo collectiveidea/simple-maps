@@ -4,6 +4,8 @@ Google Maps should be easy to add anywhere. Simply mark up your content with "hC
 
 Don't know your latitude & longitude? No problem, we'll look them up for you! Have them already? We'll use them.
 
+It will fit all the points into view automatically!
+
 h2. Requirements
 
 * "Sumo":http://github.com/danwrong/sumo (javascript microformats parser)

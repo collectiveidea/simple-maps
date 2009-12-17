@@ -92,7 +92,12 @@ var Map = {
   },
   
   fitPoints: function() {
-    Map.map.fitBounds(Map.bounds); 
+    if (Map.points > 1) {
+      Map.map.fitBounds(Map.bounds); 
+    } else {
+      Map.map.setCenter(Map.center);
+      Map.map.setZoom(Map.maxZoom);
+    }
   },
   
   geocoder: function() {
